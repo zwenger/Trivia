@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Trivia from "../Components/Trivia";
+import {process} from "next/dist/server/web/sandbox/polyfills";
 
 function Home({questions}) {
   console.log(questions);
@@ -16,7 +17,7 @@ function Home({questions}) {
 }
 
 export async function getServerSideProps(context) {
-  const res = await fetch(`http://localhost:3000/api/questions`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/questions`);
   const jsonRes = await res.json();
   return {
     props: {

@@ -8,7 +8,28 @@ function Trivia({questions}) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
 
-  useEffect( () => {
+  const submitTrivia = useCallback(async () => {
+    if (currentQuestion === questions.length) {
+      console.log(selectedAnswers)
+      const response = await fetch('http://localhost:3000/api/trivia', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(selectedAnswers)
+      })
+      const result = await response.json();
+      console.log(result)
+      await router.push({
+        pathname: 'trivia/result',
+        query: {
+          score: result.data.score
+        }
+      })
+    }
+  }, [currentQuestion, questions.length, router, selectedAnswers])
+
+  useEffect(() => {
     submitTrivia()
   }, [currentQuestion, questions.length, router, selectedAnswers, submitTrivia])
 
@@ -33,28 +54,6 @@ function Trivia({questions}) {
   const nextQuestion = () => {
     setCurrentQuestion(currentQuestion + 1)
   }
-
-  const submitTrivia = useCallback(async () => {
-    if (currentQuestion === questions.length) {
-      console.log(selectedAnswers)
-      const response = await fetch('http://localhost:3000/api/trivia', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(selectedAnswers)
-      })
-      const result = await response.json();
-      console.log(result)
-      await router.push({
-        pathname: 'trivia/result',
-        query: {
-          score: result.data.score
-        }
-      })
-    }
-  }, [currentQuestion, questions.length, router, selectedAnswers])
-
 
   return (
     <>

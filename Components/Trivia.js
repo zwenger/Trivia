@@ -11,7 +11,7 @@ function Trivia({questions}) {
   const submitTrivia = useCallback(async () => {
     if (currentQuestion === questions.length) {
       console.log(selectedAnswers)
-      const response = await fetch('http://localhost:3000/api/trivia', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/trivia`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

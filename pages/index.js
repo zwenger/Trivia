@@ -17,7 +17,7 @@ function Home({questions}) {
 }
 
 export async function getServerSideProps(context) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/questions`);
+  const res = await fetch(`https://trivia-peach.vercel.app/api/questions`);
   const jsonRes = await res.json();
   return {
     props: {
